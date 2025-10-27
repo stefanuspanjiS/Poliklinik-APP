@@ -47,7 +47,6 @@
                         </a>
                     </li>
 
-                    {{-- comment
                     <li class="nav-item">
                         <a href="{{ route('pasien.index') }}"
                             class="nav-link {{ request()->routeIs('pasien.*') ? 'active' : '' }}">
@@ -63,7 +62,6 @@
                             <p>Manajemen Obat</p>
                         </a>
                     </li>
-                    --}}
 
                 @endif
 
