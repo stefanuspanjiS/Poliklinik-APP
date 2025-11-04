@@ -107,7 +107,7 @@
                             </p>
                         </a>
                     </li>
-
+                    {{--
                     <li class="nav-item">
                         <a href="{{ route('periksa-pasien.index') }}"
                         class="nav-link {{ request()->routeIs('periksa-pasien.*') ? 'active' : '' }}">
@@ -127,8 +127,11 @@
                             </p>
                         </a>
                     </li>
+                    --}}
 
                 @endif
+
+                <!---->
 
                 <li class="nav-item ">
                     <form method="POST" action="/logout">

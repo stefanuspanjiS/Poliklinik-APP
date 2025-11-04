@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Poli;
 
 class AuthController extends Controller
 {
@@ -24,11 +25,16 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard');
             } elseif ($user->role == 'dokter'){
                 return redirect()->route('dokter.dashboard');
-            } elseif ($user->role == 'pasien'){
+            } else{
                 return redirect()->route('pasien.dashboard');
             }
         }
         return back()->withErrors(['email' => 'email atau password salah']);
+    }
+
+    public function showRegister()
+    {
+        return view('auth.register');
     }
 
     public function register(Request $request)
@@ -41,6 +47,18 @@ class AuthController extends Controller
             'email'     => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password'  => ['required', 'confirmed'],
         ]);
+
+        //cek apakah nomor KTP sudah terdaftar
+        if(User::where('no_ktp', $request->no_ktp)->exists()){
+            return back()->withErrors(['no_ktp' => 'Nomor Ktp Sudah terdaftar']);
+        }
+
+        $no_rm = date('Ym') . '.' . str_pad(
+            User::where('no_rm', 'like', date('Ym') . '%')->count() + 1,
+            3,
+            '0',
+            STR_PAD_LEFT
+        );
 
         User::create([
             'nama'      => $request->nama,
@@ -55,14 +73,16 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-{
-    Auth::logout(); // logout user
+    {
+        Auth::logout(); // logout user
 
-    // hapus session supaya benar-benar keluar
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+        // kembalikan ke halaman login
+        return redirect()->route('login');
+    }
 
-    // kembalikan ke halaman login
-    return redirect()->route('login');
-}
+    public function dokter()
+    {
+        $data = Poli::with('dokters')->get();
+        return $data;
+    }
 }
