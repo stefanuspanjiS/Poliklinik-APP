@@ -37,7 +37,7 @@ class PoliController extends Controller
 
         $daftar = DaftarPoli::create([
             'id_pasien' => $request->id_pasien, //Auth::id(),
-            'id_jadwal' => $request->id_jadwals,
+            'id_jadwal' => $request->id_jadwal,
             'keluhan' => $request->keluhan,
             'no_antrian' => $jumlahSudahDaftar + 1,
         ]);

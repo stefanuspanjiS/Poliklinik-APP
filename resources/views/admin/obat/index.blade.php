@@ -18,37 +18,68 @@
                 </a>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-hover">
                         <thead class="thead-light">
                             <tr>
                                 <th>Nama Obat</th>
                                 <th>Kemasan</th>
+                                <th>Stok</th>
+                                <th>Status</th>
                                 <th>Harga</th>
-                                <th style="width: 150px;">Aksi</th>
+                                <th style="width: 200px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($obats as $obat)
-                                <tr>
+                                <tr
+                                    @if ($obat->stok == 0)
+                                        class="table-danger"
+                                    @elseif ($obat->stok <= 5)
+                                        class="table-warning"
+                                    @endif
+                                >
                                     <td>{{ $obat->nama_obat }}</td>
                                     <td>{{ $obat->kemasan }}</td>
+                                    <td>{{ $obat->stok }}</td>
+
+                                    {{-- STATUS STOK --}}
+                                    <td>
+                                        @if ($obat->stok == 0)
+                                            <span class="badge badge-danger">Habis</span>
+                                        @elseif ($obat->stok <= 5)
+                                            <span class="badge badge-warning">Menipis</span>
+                                        @else
+                                            <span class="badge badge-success">Tersedia</span>
+                                        @endif
+                                    </td>
+
                                     <td>{{ 'Rp ' . number_format($obat->harga, 0, ',', '.') }}</td>
+
                                     <td>
                                         <a href="{{ route('obat.edit', $obat->id) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('obat.destroy', $obat->id) }}" method="POST" style="display: inline-block;">
+
+                                        {{-- OPTIONAL: KELOLA STOK --}}
+                                        <a href="{{ route('obat.stok.edit', $obat->id) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-boxes"></i>
+                                        </a>
+
+                                        <form action="{{ route('obat.destroy', $obat->id) }}"
+                                            method="POST"
+                                            style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus Data Obat ini ?')">
-                                                <i class="fas fa-trash"></i> Hapus
+                                            <button class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Yakin ingin menghapus Data Obat ini ?')">
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="text-center" colspan="7">
+                                    <td class="text-center" colspan="6">
                                         Belum ada Data Obat
                                     </td>
                                 </tr>

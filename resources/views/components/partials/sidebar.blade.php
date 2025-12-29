@@ -107,7 +107,7 @@
                             </p>
                         </a>
                     </li>
-                    {{--
+
                     <li class="nav-item">
                         <a href="{{ route('periksa-pasien.index') }}"
                         class="nav-link {{ request()->routeIs('periksa-pasien.*') ? 'active' : '' }}">
@@ -119,15 +119,14 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('riwayat-pasien.index') }}"
-                        class="nav-link {{ request()->routeIs('riwayat-pasien[].*') ? 'active' : '' }}">
+                        <a href="{{ route('dokter.riwayat-pasien.index') }}"
+                        class="nav-link {{ request()->routeIs('dokter.riwayat-pasien.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-history"></i>
                             <p>
                                 Riwayat Pasien
                             </p>
                         </a>
                     </li>
-                    --}}
 
                 @endif
 
