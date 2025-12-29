@@ -22,9 +22,14 @@
                                 <select id="select-obat" class="form-select">
                                     <option value="">-- Pilih Obat --</option>
                                     @foreach ($obats as $obat)
-                                        <option value="{{ $obat->id }}" {{ $obat->stok == 0 ? 'disabled' : '' }}>
-                                            {{ $obat->nama_obat }}
-                                            (stok: {{ $obat->stok }})
+                                        <option
+                                            value="{{ $obat->id }}"
+                                            data-nama="{{ $obat->nama_obat }}"
+                                            data-harga="{{ $obat->harga }}"
+                                            data-stok="{{ $obat->stok }}"
+                                            {{ $obat->stok == 0 ? 'disabled' : '' }}
+                                        >
+                                            {{ $obat->nama_obat }} (stok: {{ $obat->stok }})
                                         </option>
 
                                     @endforeach

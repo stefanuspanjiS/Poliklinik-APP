@@ -83,11 +83,12 @@ class ObatController extends Controller
             ->with('type', 'success');
     }
 
-    public function stok($id)
+    public function editStok($id)
     {
         $obat = Obat::findOrFail($id);
         return view('admin.obat.stok', compact('obat'));
     }
+
     public function updateStok(Request $request, $id)
     {
         $request->validate([
@@ -100,7 +101,6 @@ class ObatController extends Controller
         if ($request->aksi === 'tambah') {
             $obat->stok += $request->stok;
         } else {
-            // VALIDASI STOK TIDAK BOLEH MINUS
             if ($obat->stok < $request->stok) {
                 return back()
                     ->with('message', 'Stok tidak mencukupi')
@@ -109,6 +109,7 @@ class ObatController extends Controller
 
             $obat->stok -= $request->stok;
         }
+
 
         $obat->save();
 
